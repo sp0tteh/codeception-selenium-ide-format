@@ -100,9 +100,19 @@ function formatCommands(commands) {
           var target = getSelector(command.target);
           result += '$I->fillField("'+target+'", "'+command.value+'");\n';
           break;
-        case 'assertText':
+        case 'dragAndDropToObject':
           var target = getSelector(command.target);
-          result += '$I->see("'+command.value+'", "'+target+'");\n';
+          result += '$I->dragAndDrop("'+target+'", "'+command.value+'");\n';
+          break;
+        case 'assertText':
+          if (command.target.substring(0, 4) === 'link') {
+            result += '$I->see("'+command.value+'");\n';
+          } else {
+            var target = getSelector(command.target);
+            result += '$I->see("'+command.value+'", "'+target+'");\n';
+          }
+
+          
           break;
           default:
           result += '$I->' + command.command + '====' + command.target + '|' + command.value + "|\n";
@@ -136,6 +146,8 @@ function getSelector(target) {
       case 'link':
         return parts[1];
         break;
+      case 'xpath':
+        return parts[1];
       default:
         alert('unknown selector: '+parts[0]+'  value: '+parts[1]);
     }
