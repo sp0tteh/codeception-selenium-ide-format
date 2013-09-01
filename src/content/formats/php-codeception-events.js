@@ -1,4 +1,4 @@
-var down = false;
+/*var down = false;
 var up = false;
 
 Recorder.addEventHandler('mouseDowns', 'mousedown', function (event) {
@@ -7,9 +7,9 @@ Recorder.addEventHandler('mouseDowns', 'mousedown', function (event) {
     if (typeof event.target.draggable === 'function') {
         alert('ok');
     }
-    /*if ($(event.target).data('draggable')) {
+    if ($(event.target).data('draggable')) {
         alert('down');
-    }*/
+    }
 
     if (event.button == 0) {
         this.record("mouseDown", this.findLocators(event.target), '');
@@ -29,4 +29,4 @@ Recorder.addEventHandler('mouseUps', 'mouseup', function (event) {
     }
 }, {
     capture : true
-});
+});*/

@@ -38,9 +38,9 @@ function parse(testCase, source) {
  * @param name The name of the test case, if any. It may be used to embed title into the source.
  */
 function format(testCase, name) {
-  return "123";
+  
 
-  /*var className = testCase.getTitle();
+  var className = testCase.getTitle();
   if (!className) {
     className = "NewTest";
   }
@@ -50,9 +50,9 @@ function format(testCase, name) {
   methodName = testMethodName(className.replace(/Test$/, "").replace(/^Test/, "").
                 replace(/^[A-Z]/, function(str) { return str.toLowerCase(); }));*/
 
-   /* var header = options.header.
+    var header = options.header.
     replace(/\$\{baseURL\}/g, testCase.getBaseURL()).
-    replace(/\$\{([a-zA-Z0-9_]+)\}/g, function(str, name) { return options[name]; });*/
+    replace(/\$\{([a-zA-Z0-9_]+)\}/g, function(str, name) { return options[name]; });
 
   /*var header = options.header.
     replace(/\$\{className\}/g, className).
@@ -60,10 +60,10 @@ function format(testCase, name) {
     replace(/\$\{baseURL\}/g, testCase.getBaseURL()).
     replace(/\$\{([a-zA-Z0-9_]+)\}/g, function(str, name) { return options[name]; });*/
 
-/*	 var result = header;
+	 var result = header;
   result += formatCommands(testCase.commands);
   if (testCase.footer) result += testCase.footer;
-  return result;*/
+  return result;
 
 }
 
@@ -122,6 +122,19 @@ function formatCommand(command, indent) {
           }
 
           
+          break;
+        case 'waitForElementPresent':
+            var target = getSelector(command.target);
+            result += '$I->waitForElement("'+target+'");\n';
+          break;
+        case 'waitForText':
+          if (command.target) {
+            var target = getSelector(command.target);
+            result += '$I->waitForText("'+ command.value+'",'+10+ ' , "'+target+'");\n';
+          } else {
+            result += '$I->waitForText("'+ command.value+'",'+10+ ');\n';
+          }
+            
           break;
           default:
           result += '$I->' + command.command + '====' + command.target + '|' + command.value + "|\n";

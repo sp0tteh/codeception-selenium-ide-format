@@ -10,7 +10,7 @@
     <html:script type="application/javascript">
         var ide_api = new API();
         ide_api.addPlugin("jason@allmyit.com");
-        ide_api.addPluginProvidedFormatter("codeceptionformatter", "PHP - Codeception", "chrome://php-formatters/content/formats/php-codeception-events.js");
+        ide_api.addPluginProvidedFormatter("codeceptionformatter", "PHP - Codeception", "chrome://php-formatters/content/formats/php-codeception.js");
         ide_api.addPluginProvidedUserExtension("chrome://php-formatters/content/formats/php-codeception-events.js");
 
     </html:script>
