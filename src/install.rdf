@@ -8,6 +8,8 @@
         <em:creator>Jason Smith</em:creator>
         <em:description>Codeception PHP code formatters for Selenium IDE</em:description>
         <em:type>2</em:type>
+        <em:homepageURL>http://seleniumhq.org/projects/ide</em:homepageURL>
+        <em:updateURL>http://codeceptionide.allmyit.com.au/update.rdf</em:updateURL>
 
         <em:targetApplication>
           <Description>

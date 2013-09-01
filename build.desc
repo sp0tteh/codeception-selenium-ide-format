@@ -1,4 +1,4 @@
-mozilla_extension(name = "php-format",
+mozilla_extension(name = "php-codeception",
   resources = [
     {"src/content" : "chrome"}
   ],
