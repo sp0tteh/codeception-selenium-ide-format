@@ -188,9 +188,12 @@ function formatSuite(testSuite, filename) {
     var testClass = testSuite.tests[i].filename.replace(/\s/g, '_');
     var action = testSuite.tests[i].getTitle();
 
+    if (!testSuite.tests[i].content) {
+      //Open the testcase, formats the commands from the stored html
+      editor.app.showTestCaseFromSuite(testSuite.tests[i]);
+    }
     //Get the actions for this test
     content = formatCommands(testSuite.tests[i].content.commands, 2);
-
 
     var testFunction = options.testClassHeader.
     replace(/\$\{testClass\}/g, testClass).
@@ -198,7 +201,6 @@ function formatSuite(testSuite, filename) {
     replace(/\$\{action\}/g, action).
     replace(/\$\{([a-zA-Z0-9_]+)\}/g, function(str, name) { return options[name]; });
 
-    
     formattedSuite +=  testFunction + "\n\n";
   }
 
