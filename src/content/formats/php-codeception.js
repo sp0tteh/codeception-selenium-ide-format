@@ -42,28 +42,22 @@ function format(testCase, name) {
 
   var className = testCase.getTitle();
   if (!className) {
-    className = "NewTest";
+    className = "perform actions and see result";
   }
 
+  var content = formatCommands(testCase.commands);
 
  /* var formatLocal = testCase.formatLocal(this.name);
   methodName = testMethodName(className.replace(/Test$/, "").replace(/^Test/, "").
                 replace(/^[A-Z]/, function(str) { return str.toLowerCase(); }));*/
 
-    var header = options.header.
+    var cept = options.header.
     replace(/\$\{baseURL\}/g, testCase.getBaseURL()).
+    replace(/\$\{action\}/g, className).
+    replace(/\$\{content\}/g, content).
     replace(/\$\{([a-zA-Z0-9_]+)\}/g, function(str, name) { return options[name]; });
 
-  /*var header = options.header.
-    replace(/\$\{className\}/g, className).
-    replace(/\$\{methodName\}/g, methodName).
-    replace(/\$\{baseURL\}/g, testCase.getBaseURL()).
-    replace(/\$\{([a-zA-Z0-9_]+)\}/g, function(str, name) { return options[name]; });*/
-
-	 var result = header;
-  result += formatCommands(testCase.commands);
-  if (testCase.footer) result += testCase.footer;
-  return result;
+  return cept;
 
 }
 
@@ -77,7 +71,7 @@ function formatCommands(commands, indent = 0) {
 	var result = '';
   for (var i = 0; i < commands.length; i++) {
     var command = commands[i];
-    result += formatCommand(command, indent);
+    result += indents(indent) + options.variable + formatCommand(command, indent);
   }
 
   return result;
@@ -92,58 +86,58 @@ function formatCommand(command, indent) {
       //Switch command and replace with codeception varient
       switch (command.command) {
         case 'open':
-          result += '$I->amOnPage("'+command.target+'");\n';
+          result += '->amOnPage("'+command.target+'");\n';
           break;
         case 'click':
         case 'clickAndWait':
           var target = getSelector(command.target);
-          result += '$I->click("'+target+'");\n';
+          result += '->click("'+target+'");\n';
           break;
         case 'select':
           var target = getSelector(command.target);
           var value = command.value.split('=')[1];
 
-          result += '$I->selectOption("'+target+'", "'+value+'");\n';
+          result += '->selectOption("'+target+'", "'+value+'");\n';
           break;
         case 'sendKeys':
           var target = getSelector(command.target);
-          result += '$I->fillField("'+target+'", "'+command.value+'");\n';
+          result += '->fillField("'+target+'", "'+command.value+'");\n';
           break;
         case 'dragAndDropToObject':
           var target = getSelector(command.target);
-          result += '$I->dragAndDrop("'+target+'", "'+command.value+'");\n';
+          result += '->dragAndDrop("'+target+'", "'+command.value+'");\n';
           break;
         case 'assertText':
           if (command.target.substring(0, 4) === 'link') {
-            result += '$I->see("'+command.value+'");\n';
+            result += '->see("'+command.value+'");\n';
           } else {
             var target = getSelector(command.target);
-            result += '$I->see("'+command.value+'", "'+target+'");\n';
+            result += '->see("'+command.value+'", "'+target+'");\n';
           }
 
           
           break;
         case 'waitForElementPresent':
             var target = getSelector(command.target);
-            result += '$I->waitForElement("'+target+'");\n';
+            result += '->waitForElement("'+target+'");\n';
           break;
         case 'waitForText':
           if (command.target) {
             var target = getSelector(command.target);
-            result += '$I->waitForText("'+ command.value+'",'+10+ ' , "'+target+'");\n';
+            result += '->waitForText("'+ command.value+'",'+10+ ' , "'+target+'");\n';
           } else {
-            result += '$I->waitForText("'+ command.value+'",'+10+ ');\n';
+            result += '->waitForText("'+ command.value+'",'+10+ ');\n';
           }
             
           break;
           default:
-          result += '$I->' + command.command + '====' + command.target + '|' + command.value + "|\n";
+          result += '->' + command.command + '====' + command.target + '|' + command.value + "|\n";
       }
 
       
     }
 
-    return indents(indent) + result;
+    return result;
 }
 
 function getSelector(target) {
@@ -176,25 +170,6 @@ function getSelector(target) {
   }
 }
 
-/*
- * Optional: The customizable option that can be used in format/parse functions.
- */
-options = {
-  header: '<?php\n' +
-    '$I = new WebGuy($scenario);\n' +
-    '$I->wantTo("perform actions and see result");\n',
-  indent: '4'
-}
-
-/*
- * Optional: XUL XML String for the UI of the options dialog
- */
-//configForm = '<textbox id="options_nameOfTheOption"/>'
-
-
-
-
-
 /**
  * Returns a string representing the suite for this formatter language.
  *
@@ -205,32 +180,34 @@ function formatSuite(testSuite, filename) {
   var suiteClass = /^(\w+)/.exec(filename)[1];
   suiteClass = suiteClass[0].toUpperCase() + suiteClass.substring(1);
 
-  var formattedSuite = "<?php namespace AllmyitTest;\n\n"
-    + "require_once('base.php');\n\n"
-    + "use AllmyitTest\\user as TestUser;\n\n"
-    + "class " + suiteClass + "\n"
-    + '{\n'
-    + indents(2) + "protected $i;\n\n"
-    + indents(2) + "public function _before() {}\n"
-    + indents(2) + "public function _after() {}\n\n";
+  var formattedSuite = "";
 
   for (var i = 0; i < testSuite.tests.length; ++i) {
+    var content = "";
 
-    var testClass = testSuite.tests[i].getTitle();
-    formattedSuite += indents(2)
-        + "public function "+ testClass +"(\\TestGuy $i)\n"
-        + indents(2) + "{\n";
+    var testClass = testSuite.tests[i].filename.replace(/\s/g, '_');
+    var action = testSuite.tests[i].getTitle();
 
-        formattedSuite += formatCommands(testSuite.tests[i].content.commands, 3);
+    //Get the actions for this test
+    content = formatCommands(testSuite.tests[i].content.commands, 2);
 
 
-        formattedSuite +=  indents(2) + "}\n";
+    var testFunction = options.testClassHeader.
+    replace(/\$\{testClass\}/g, testClass).
+    replace(/\$\{content\}/g, content).
+    replace(/\$\{action\}/g, action).
+    replace(/\$\{([a-zA-Z0-9_]+)\}/g, function(str, name) { return options[name]; });
 
+    
+    formattedSuite +=  testFunction + "\n\n";
   }
 
-  formattedSuite +=  "}\n";
+  var cest = options.testHeader.
+    replace(/\$\{suiteClass\}/g, suiteClass).
+    replace(/\$\{content\}/g, formattedSuite).
+    replace(/\$\{([a-zA-Z0-9_]+)\}/g, function(str, name) { return options[name]; });
 
-  return formattedSuite;
+  return cest;
 }
 
 
@@ -303,6 +280,47 @@ function underscore(text) {
 
 
 
+/*
+ * Optional: The customizable option that can be used in format/parse functions.
+ */
+options = {
+  header: '<?php\n' +
+    '${variable} = new WebGuy($scenario);\n' +
+    '${variable}->wantTo("${action}");\n',
+  testHeader: "<?php\n\n"
+    + "class ${suiteClass}"
+    + '{\n'
+    + indents(2) + "protected ${variable};\n\n"
+    + indents(2) + "public function _before() {}\n"
+    + indents(2) + "public function _after() {}\n\n",
+  testClassHeader: "${variable}->wantTo('${action}');",
+  indent: 4,
+  variable: '$I'
+}
 
+/*
+ * Optional: XUL XML String for the UI of the options dialog
+ */
+//configForm = '<textbox id="options_nameOfTheOption"/>'
 
-
+this.configForm =
+        '<description>Variable for WebGuy</description>' +
+        '<textbox id="options_variable" />' +
+        '<description>Cept</description>' +
+        '<textbox id="options_header" multiline="true" flex="1" rows="4"/>' +
+        '<description>Cest</description>' +
+        '<textbox id="options_testHeader" multiline="true" flex="1" rows="4"/>' +
+        '<description>Cest Function</description>' +
+        '<textbox id="options_testClassHeader" multiline="true" flex="1" rows="2"/>' +
+        '<description>Indent</description>' +
+        '<menulist id="options_indent"><menupopup>' +
+        '<menuitem label="Tab" value="tab"/>' +
+        '<menuitem label="1 space" value="1"/>' +
+        '<menuitem label="2 spaces" value="2"/>' +
+        '<menuitem label="3 spaces" value="3"/>' +
+        '<menuitem label="4 spaces" value="4"/>' +
+        '<menuitem label="5 spaces" value="5"/>' +
+        '<menuitem label="6 spaces" value="6"/>' +
+        '<menuitem label="7 spaces" value="7"/>' +
+        '<menuitem label="8 spaces" value="8"/>' +
+        '</menupopup></menulist>';
