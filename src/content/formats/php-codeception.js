@@ -114,8 +114,6 @@ function formatCommand(command, indent) {
             var target = getSelector(command.target);
             result += '->see("'+command.value+'", "'+target+'");\n';
           }
-
-          
           break;
         case 'waitForElementPresent':
             var target = getSelector(command.target);
@@ -130,6 +128,14 @@ function formatCommand(command, indent) {
           }
             
           break;
+        case 'assertTextNotPresent':
+          if (command.target) {
+            var target = getSelector(command.target);
+            result += '->dontSee("'+ command.value+'", "'+target+'");\n';
+          } else {
+            result += '->dontSee("'+ command.value+'");\n';
+          }
+          break;
           default:
           result += '->' + command.command + '====' + command.target + '|' + command.value + "|\n";
       }
@@ -140,6 +146,11 @@ function formatCommand(command, indent) {
     return result;
 }
 
+function escapeString(value)
+{
+  return value.replace(/"/g, '\\"');
+}
+
 function getSelector(target) {
 
   //Check for xparth
@@ -148,7 +159,9 @@ function getSelector(target) {
   } else {
 
 
-    var parts = target.split('=');
+    var parts = target.split(/=(.+)?/);
+    parts[1] = escapeString(parts[1]);
+    
     switch(parts[0]) {
       case 'id':
           return "#"+parts[1];
