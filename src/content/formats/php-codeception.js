@@ -96,12 +96,15 @@ function formatCommand(command, indent) {
         case 'select':
           var target = getSelector(command.target);
           var value = command.value.split('=')[1];
-
           result += '->selectOption("'+target+'", "'+value+'");\n';
           break;
         case 'sendKeys':
           var target = getSelector(command.target);
-          result += '->fillField("'+target+'", "'+command.value+'");\n';
+          result += '->appendField("'+target+'", "'+command.value+'");\n';
+          break;
+        case 'type':
+          var target = getSelector(command.target);
+          result += '->fillFile("'+target+'", "'+command.value+'");\n';
           break;
         case 'dragAndDropToObject':
           var target = getSelector(command.target);
@@ -135,6 +138,11 @@ function formatCommand(command, indent) {
           } else {
             result += '->dontSee("'+ command.value+'");\n';
           }
+          break;
+        case 'addSelection':
+            var target = getSelector(command.target);
+            var value = command.value.split('=')[1];
+            result += '->selectOption("'+target+'", "'+ value+'", false);\n';
           break;
           default:
           result += '->' + command.command + '====' + command.target + '|' + command.value + "|\n";
@@ -198,7 +206,9 @@ function formatSuite(testSuite, filename) {
   for (var i = 0; i < testSuite.tests.length; ++i) {
     var content = "";
 
-    var testClass = testSuite.tests[i].filename.replace(/\s/g, '_');
+    var testClass = testSuite.tests[i].filename.
+    replace(/\s/g, '_').
+    replace(/\//g, '_');
     var action = testSuite.tests[i].getTitle();
 
     if (!testSuite.tests[i].content) {
