@@ -104,7 +104,7 @@ function formatCommand(command, indent) {
           break;
         case 'type':
           var target = getSelector(command.target);
-          result += '->fillFile("'+target+'", "'+command.value+'");\n';
+          result += '->fillField("'+target+'", "'+command.value+'");\n';
           break;
         case 'dragAndDropToObject':
           var target = getSelector(command.target);
@@ -143,6 +143,11 @@ function formatCommand(command, indent) {
             var target = getSelector(command.target);
             var value = command.value.split('=')[1];
             result += '->selectOption("'+target+'", "'+ value+'", false);\n';
+          break;
+        case 'removeSelection':
+            var target = getSelector(command.target);
+            var value = command.value.split('=')[1];
+            result += '->unselectOption("'+target+'", "'+ value+'");\n';
           break;
           default:
           result += '->' + command.command + '====' + command.target + '|' + command.value + "|\n";
