@@ -347,8 +347,12 @@ options = {
     + indents(2) + "public function _before() {}\n"
     + indents(2) + "public function _after() {}\n\n"
     + indents(2) + "${content}\n\n"
-    + '}\n',
-  testClassHeader: "${variable}->wantTo('${action}');",
+    + '}',
+  testClassHeader: 'public function ${testClass} (\Webguy ${variable})\n'
+    + '{\n\n'
+    + '${variable}->wantTo("${action}");\n'
+    + '${content}\n'
+    + '}',
   indent: 4,
   variable: '$I'
 }
