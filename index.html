@@ -31,7 +31,7 @@
         <h1>
 <a name="codeception-firefox-addon-for-selenium-ide" class="anchor" href="#codeception-firefox-addon-for-selenium-ide"><span class="octicon octicon-link"></span></a>Codeception Firefox addon for Selenium IDE.</h1>
 
-<p><strong>Pre Alpha Release</strong> - <em>Can only be installed by adding to your firefox profile manually</em></p>
+<p><strong>Pre Alpha Release</strong> - <a href="https://addons.mozilla.org/en-US/firefox/addon/codeception-formatters/">https://addons.mozilla.org/en-US/firefox/addon/codeception-formatters/</a></p>
 
 <p>Adds two new formatting export options:</p>
 
@@ -45,7 +45,7 @@
 <p><em>Found in Options -&gt; Options... -&gt; Formats -&gt; PHP - Codeception</em></p>
 
 <p>You can change the markup for the files in the below options. This allows you to add your own include helpers, 
-namespaces, comments, groups ect to your automated tests tests.</p>
+namespaces, comments, groups ect to your automated generated tests.</p>
 
 <p><strong>Variable for WebGuy</strong></p>
 
@@ -84,7 +84,7 @@ ${content}
 <p><strong>Cest Function</strong>
 <em>Each test case is represented as a function within the cest</em></p>
 
-<pre><code>    public function ${testClass}(\Webguy ${variable})
+<pre><code>    public function ${testClass} (\Webguy ${variable})
     {
         ${variable}-&gt;wantTo('${action}');
         ${content}
@@ -100,7 +100,7 @@ ${content}
 <li>${testClass} The file name of the Test Case</li>
 <li>${action} The title of the Test Case</li>
 </ul><h1>
-<a name="current-support-selenium-ide-commands" class="anchor" href="#current-support-selenium-ide-commands"><span class="octicon octicon-link"></span></a>Current Support Selenium IDE Commands</h1>
+<a name="current-supported-selenium-ide-commands" class="anchor" href="#current-supported-selenium-ide-commands"><span class="octicon octicon-link"></span></a>Current Supported Selenium IDE Commands</h1>
 
 <ul>
 <li>[x] Open</li>
@@ -116,13 +116,10 @@ ${content}
 <li>[x] assertTextNotPresent</li>
 <li>[x] addSelection</li>
 <li>[x] removeSelection</li>
+<li>[x] verifySelectedValue</li>
+<li>[x] assertValue</li>
+<li>[x] verifyValue</li>
 </ul><p><em>Unsupported commands will currently be added to the test with invalid markup</em></p>
-
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/allmyitjason">allmyitjason</a></p>
