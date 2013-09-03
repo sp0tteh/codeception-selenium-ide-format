@@ -123,6 +123,7 @@ function formatCommand(command, indent) {
             result += '->waitForElement("'+target+'");\n';
           break;
         case 'waitForText':
+        case 'waitForTextPresent':
           if (command.target) {
             var target = getSelector(command.target);
             result += '->waitForText("'+ command.value+'",'+10+ ' , "'+target+'");\n';
@@ -148,6 +149,15 @@ function formatCommand(command, indent) {
             var target = getSelector(command.target);
             var value = command.value.split('=')[1];
             result += '->unselectOption("'+target+'", "'+ value+'");\n';
+          break;
+        case 'verifyValue':
+        case 'assertValue':
+            var target = getSelector(command.target);
+            result += '->seeInField("'+target+'", "'+ command.value+'");\n';
+          break;
+        case 'verifySelectedValue':
+            var target = getSelector(command.target);
+            result += '->seeOptionIsSelected("'+target+'", "'+ command.value+'");\n';
           break;
           default:
           result += '->' + command.command + '====' + command.target + '|' + command.value + "|\n";
@@ -211,9 +221,20 @@ function formatSuite(testSuite, filename) {
   for (var i = 0; i < testSuite.tests.length; ++i) {
     var content = "";
 
-    var testClass = testSuite.tests[i].filename.
+    //If the filename is set then use this as the method name
+    //Otherwise we use the test case title, which will be
+    //Untitled as a default
+    var testCase = "";
+    if (testSuite.tests[i].filename) {
+      testCase = testSuite.tests[i].filename;
+    } else {
+      testCase = testSuite.tests[i].getTitle();
+    }
+
+    testClass = testCase.
     replace(/\s/g, '_').
     replace(/\//g, '_');
+
     var action = testSuite.tests[i].getTitle();
 
     if (!testSuite.tests[i].content) {
@@ -314,15 +335,18 @@ function underscore(text) {
  * Optional: The customizable option that can be used in format/parse functions.
  */
 options = {
-  header: '<?php\n' +
-    '${variable} = new WebGuy($scenario);\n' +
-    '${variable}->wantTo("${action}");\n',
+  header: '<?php\n'
+    + '${variable} = new WebGuy($scenario);\n'
+    + '${variable}->wantTo("${action}");\n'
+    + '${content}\n',
   testHeader: "<?php\n\n"
     + "class ${suiteClass}"
     + '{\n'
     + indents(2) + "protected ${variable};\n\n"
     + indents(2) + "public function _before() {}\n"
-    + indents(2) + "public function _after() {}\n\n",
+    + indents(2) + "public function _after() {}\n\n"
+    + indents(2) + "${content}\n\n"
+    + '{\n',
   testClassHeader: "${variable}->wantTo('${action}');",
   indent: 4,
   variable: '$I'

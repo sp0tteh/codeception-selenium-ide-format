@@ -1,0 +1,96 @@
+<html>
+<head>
+	<title>Codeception IDE Demo</title>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			//Click
+			$('#click').on('click', function() {
+				$('#clicked').show();
+			});
+
+
+			$('#draggable').draggable();
+			$('#droppable').droppable({
+				drop: function(event, ui) {
+					$('#dropped').show();
+
+					setTimeout(function (){
+						$('#waitforme').show();
+
+						setTimeout(function (){
+							$('#waitfortext').show();
+
+							setTimeout(function (){
+								$('#waitfortextinelement').show();
+					         }, 1000);
+
+				         }, 1000);
+
+			         }, 1000);
+					
+					
+
+				}
+			});
+
+		});
+
+
+
+
+	</script>
+
+</head>
+
+<style type="text/css">
+	#draggable {
+		width:100px;
+		height:100px;
+		background-color: #c3c3c3;
+		margin:20px;
+	}
+
+	#droppable {
+		width:100px;
+		height:100px;
+		background-color: #c3c3c3;
+		margin:20px;
+	}
+</style>
+<body>
+<a href='#' id='click'>click me</a>
+<div id="clicked" style='display:none;'>clicked</div>
+
+<form>
+	<select id='select'>
+		<option></option>
+		<option value='foo'>foo</option>
+		<option value='bar'>bar</option>
+	</select>
+
+	<select id='multiselect' multiple>
+		<option></option>
+		<option value='foo'>foo</option>
+		<option value='bar'>bar</option>
+	</select>
+
+	<input value='' id='field'/>
+</form>
+
+<div id="draggable" class='ui-widget-content ui-draggable'>Drag me!</div>
+
+<div id="droppable" class='ui-widget-content ui-draggable'>Drop Here</div>
+
+<div style='display:none;' id="dropped">Dropped</div>
+
+<div style='display:none;' id='waitforme'>wait for me</div>
+
+<div style='display:none;' id='waitfortext'>wait for text</div>
+
+<div style='display:none;' id='waitfortextinelement'>wait for text in element</div>
+</body>
+</html>
