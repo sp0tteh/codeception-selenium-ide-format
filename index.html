@@ -1,71 +1,143 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Codeception-selenium-ide-format by allmyitjason</title>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Codeception-selenium-ide-format : Output from selenium ide as codeception code" />
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Codeception-selenium-ide-format</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Codeception-selenium-ide-format</h1>
-        <p>Output from selenium ide as codeception code</p>
 
-        <p class="view"><a href="https://github.com/allmyitjason/codeception-selenium-ide-format">View the Project on GitHub <small>allmyitjason/codeception-selenium-ide-format</small></a></p>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/allmyitjason/codeception-selenium-ide-format">View on GitHub</a>
 
+          <h1 id="project_title">Codeception-selenium-ide-format</h1>
+          <h2 id="project_tagline">Output from selenium ide as codeception code</h2>
 
-        <ul>
-          <li><a href="https://github.com/allmyitjason/codeception-selenium-ide-format/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/allmyitjason/codeception-selenium-ide-format/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/allmyitjason/codeception-selenium-ide-format">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/allmyitjason/codeception-selenium-ide-format/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/allmyitjason/codeception-selenium-ide-format/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="codeception-firefox-addon-for-selenium-ide" class="anchor" href="#codeception-firefox-addon-for-selenium-ide"><span class="octicon octicon-link"></span></a>Codeception Firefox addon for Selenium IDE.</h1>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<p><strong>Pre Alpha Release</strong> - <em>Can only be installed by adding to your firefox profile manually</em></p>
+
+<p>Adds two new formatting export options:</p>
+
+<p><strong>File</strong> -&gt; <strong>Export Test Case As</strong> -&gt; <strong>PHP - Codeception</strong></p>
+
+<p><strong>File</strong> -&gt; <strong>Export Test Suite As</strong> -&gt; <strong>PHP - Codeception</strong></p>
+
+<h1>
+<a name="plugin-options" class="anchor" href="#plugin-options"><span class="octicon octicon-link"></span></a>Plugin Options</h1>
+
+<p><em>Found in Options -&gt; Options... -&gt; Formats -&gt; PHP - Codeception</em></p>
+
+<p>You can change the markup for the files in the below options. This allows you to add your own include helpers, 
+namespaces, comments, groups ect to your automated tests tests.</p>
+
+<p><strong>Variable for WebGuy</strong></p>
+
+<pre><code>$i
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<h2>
+<a name="test-case-export" class="anchor" href="#test-case-export"><span class="octicon octicon-link"></span></a>Test Case Export</h2>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<p><em>Cept file</em></p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<pre><code>&lt;?php
+${variable} = new WebGuy($scenario);
+${variable}-&gt;wantTo("${action}");
+${content}
+</code></pre>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<h2>
+<a name="test-suite-export" class="anchor" href="#test-suite-export"><span class="octicon octicon-link"></span></a>Test Suite Export</h2>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p><em>Cest file</em></p>
+
+<pre><code>&lt;?php 
+
+class ${suiteClass} {
+
+protected ${variable};
+
+public function _before() {}
+public function _after() {}
+
+${content}
+}
+</code></pre>
+
+<p><strong>Cest Function</strong>
+<em>Each test case is represented as a function within the cest</em></p>
+
+<pre><code>    public function ${testClass}(\Webguy ${variable})
+    {
+        ${variable}-&gt;wantTo('${action}');
+        ${content}
+    }
+</code></pre>
+
+<p><strong>Variables</strong></p>
+
+<ul>
+<li>${content} The selenium ide commands for this test</li>
+<li>${variable} The variable name you specified</li>
+<li>${suiteClass} The name of the Test Suite</li>
+<li>${testClass} The file name of the Test Case</li>
+<li>${action} The title of the Test Case</li>
+</ul><h1>
+<a name="current-support-selenium-ide-commands" class="anchor" href="#current-support-selenium-ide-commands"><span class="octicon octicon-link"></span></a>Current Support Selenium IDE Commands</h1>
+
+<ul>
+<li>[x] Open</li>
+<li>[x] Click</li>
+<li>[x] ClickAndWait</li>
+<li>[x] select</li>
+<li>[x] sendKeys</li>
+<li>[x] type</li>
+<li>[x] dragAndDropObject</li>
+<li>[x] assertText</li>
+<li>[x] waitForElementPresent</li>
+<li>[x] waitForText</li>
+<li>[x] assertTextNotPresent</li>
+<li>[x] addSelection</li>
+<li>[x] removeSelection</li>
+</ul><p><em>Unsupported commands will currently be added to the test with invalid markup</em></p>
 
 <h3>
 <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
 <h3>
 <a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
       </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/allmyitjason">allmyitjason</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Codeception-selenium-ide-format maintained by <a href="https://github.com/allmyitjason">allmyitjason</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+
     
+
   </body>
 </html>
