@@ -108,7 +108,8 @@ function formatCommand(command, indent) {
           break;
         case 'dragAndDropToObject':
           var target = getSelector(command.target);
-          result += '->dragAndDrop("'+target+'", "'+command.value+'");\n';
+          var value = getSelector(command.value);
+          result += '->dragAndDrop("'+target+'", "'+value+'");\n';
           break;
         case 'assertText':
           if (command.target.substring(0, 4) === 'link') {
