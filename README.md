@@ -1,6 +1,10 @@
 Codeception Firefox addon for Selenium IDE.
 ===============================
 
+**Pre Alpha Release** - *Can only be installed by adding to your firefox profile manually*
+
+
+
 Adds two new formatting export options:
 
 **File** -> **Export Test Case As** -> **PHP - Codeception**
@@ -62,4 +66,23 @@ ${content}
 - ${suiteClass} The name of the Test Suite
 - ${testClass} The file name of the Test Case
 - ${action} The title of the Test Case
+
+
+Current Support Selenium IDE Commands
+=====================================
+- [x] Open
+- [x] Click
+- [x] ClickAndWait
+- [x] select
+- [x] sendKeys
+- [x] type
+- [x] dragAndDropObject
+- [x] assertText
+- [x] waitForElementPresent
+- [x] waitForText
+- [x] assertTextNotPresent
+- [x] addSelection
+- [x] removeSelection
+
+*Unsupported commands will currently be added to the test with invalid markup*
 
