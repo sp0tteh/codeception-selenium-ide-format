@@ -69,16 +69,25 @@ function format(testCase, name) {
  */
 function formatCommands(commands, indent = 0) {
 	var result = '';
+  var ignoreWebCommands = ['answerOnNextPrompt'];
   for (var i = 0; i < commands.length; i++) {
     var command = commands[i];
-    result += indents(indent) + options.variable + formatCommand(command, indent);
+    var tmpResult = formatCommand(command, indent);
+
+    if (ignoreWebCommands.indexOf(command.command) == -1) {
+      result += indents(indent) + options.variable + tmpResult;
+    }
   }
 
   return result;
 }
 
+//Store temp value for prompt
+var promptValue = "";
+
 function formatCommand(command, indent) {
   var result = "";
+
   if (command.type == 'command') {
 
       var codeceptionCommand = '';
@@ -154,12 +163,22 @@ function formatCommand(command, indent) {
         case 'verifyValue':
         case 'assertValue':
             var target = getSelector(command.target);
-            result += '->seeInField("'+target+'", "'+ command.value+'");\n';
+            var value = command.value.replace('exact:', '');
+            result += '->seeInField("'+target+'", "'+ value +'");\n';
           break;
         case 'verifySelectedValue':
             var target = getSelector(command.target);
             result += '->seeOptionIsSelected("'+target+'", "'+ command.value+'");\n';
           break;
+        case 'answerOnNextPrompt':
+            promptValue = command.target;
+            break;
+        case 'assertPrompt':
+            result += '->typeInPopup("'+promptValue+'");\n';
+            promptValue = '';
+          break;
+
+
           default:
           result += '->' + command.command + '====' + command.target + '|' + command.value + "|\n";
       }

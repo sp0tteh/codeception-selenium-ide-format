@@ -1,7 +1,7 @@
 Codeception Firefox addon for Selenium IDE.
 ===============================
 
-**Pre Alpha Release** - *Can only be installed by adding to your firefox profile manually*
+**Pre Alpha Release** - https://addons.mozilla.org/en-US/firefox/addon/codeception-formatters/
 
 
 
@@ -17,7 +17,7 @@ Plugin Options
 *Found in Options -> Options... -> Formats -> PHP - Codeception*
 
 You can change the markup for the files in the below options. This allows you to add your own include helpers, 
-namespaces, comments, groups ect to your automated tests tests.
+namespaces, comments, groups ect to your automated generated tests.
 
 **Variable for WebGuy**
 ```
@@ -53,7 +53,7 @@ ${content}
 **Cest Function**
 *Each test case is represented as a function within the cest*
 ```
-    public function ${testClass}(\Webguy ${variable})
+    public function ${testClass} (\Webguy ${variable})
     {
         ${variable}->wantTo('${action}');
         ${content}
@@ -68,7 +68,7 @@ ${content}
 - ${action} The title of the Test Case
 
 
-Current Support Selenium IDE Commands
+Current Supported Selenium IDE Commands
 =====================================
 - [x] Open
 - [x] Click
@@ -83,6 +83,9 @@ Current Support Selenium IDE Commands
 - [x] assertTextNotPresent
 - [x] addSelection
 - [x] removeSelection
+- [x] verifySelectedValue
+- [x] assertValue
+- [x] verifyValue
 
 *Unsupported commands will currently be added to the test with invalid markup*
 
