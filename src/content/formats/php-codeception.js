@@ -153,7 +153,7 @@ function formatCommand(command, indent) {
         case 'addSelection':
             var target = getSelector(command.target);
             var value = command.value.split('=')[1];
-            result += '->selectOption("'+target+'", "'+ value+'", false);\n';
+            result += '->appendField("'+target+'", "'+ value+'");\n';
           break;
         case 'removeSelection':
             var target = getSelector(command.target);
@@ -382,7 +382,7 @@ options = {
 //configForm = '<textbox id="options_nameOfTheOption"/>'
 
 this.configForm =
-        '<description>Variable for WebGuy</description>' +
+        '<description>Variable for WebGuy 123</description>' +
         '<textbox id="options_variable" />' +
         '<description>Cept</description>' +
         '<textbox id="options_header" multiline="true" flex="1" rows="4"/>' +
