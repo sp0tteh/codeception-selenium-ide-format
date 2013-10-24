@@ -128,6 +128,10 @@ function formatCommand(command, indent) {
             result += '->see("'+command.value+'", "'+target+'");\n';
           }
           break;
+        case 'assertNotText':
+            var target = getSelector(command.target);
+            result += '->dontSee("'+command.value+'", "'+target+'");\n';
+          break;
         case 'waitForElementPresent':
             var target = getSelector(command.target);
             result += '->waitForElement("'+target+'");\n';
@@ -166,9 +170,19 @@ function formatCommand(command, indent) {
             var value = command.value.replace('exact:', '');
             result += '->seeInField("'+target+'", "'+ value +'");\n';
           break;
+        case 'verifyChecked':
+            var target = getSelector(command.target);
+            var value = command.value.replace('exact:', '');
+            result += '->seeCheckboxIsChecked("'+target+'");\n';
+          break;
         case 'verifySelectedValue':
+        case 'verifySelectedLabel':
             var target = getSelector(command.target);
             result += '->seeOptionIsSelected("'+target+'", "'+ command.value+'");\n';
+          break;
+        case 'verifyElementNotPresent':
+          //Throws value undefined error if no target is given, selenium ide bug 
+            result += '->dontSeeElement("'+ command.value +'");\n';
           break;
         case 'answerOnNextPrompt':
             promptValue = command.target;
