@@ -80,12 +80,16 @@ Current Supported Selenium IDE Commands
 - [x] assertText
 - [x] waitForElementPresent
 - [x] waitForText
-- [x] assertTextNotPresent
+- [x] assertTextNotPresent (Depreciated)
 - [x] addSelection
 - [x] removeSelection
 - [x] verifySelectedValue
 - [x] assertValue
 - [x] verifyValue
+- [x] assertNotText
+- [x] verifyChecked
+- [x] verifySelectedLabel
+- [x] verifyElementNotPresent
 
 *Unsupported commands will currently be added to the test with invalid markup*
 
