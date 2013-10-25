@@ -120,6 +120,7 @@ function formatCommand(command, indent) {
           var value = getSelector(command.value);
           result += '->dragAndDrop("'+target+'", "'+value+'");\n';
           break;
+        case 'verifyText':
         case 'assertText':
           if (command.target.substring(0, 4) === 'link') {
             result += '->see("'+command.value+'");\n';
@@ -128,6 +129,7 @@ function formatCommand(command, indent) {
             result += '->see("'+command.value+'", "'+target+'");\n';
           }
           break;
+        case 'verifyNotText':
         case 'assertNotText':
             var target = getSelector(command.target);
             result += '->dontSee("'+command.value+'", "'+target+'");\n';
@@ -190,6 +192,9 @@ function formatCommand(command, indent) {
         case 'assertPrompt':
             result += '->typeInPopup("'+promptValue+'");\n';
             promptValue = '';
+          break;
+        case 'refresh':
+            result += '->reloadPage();\n';
           break;
 
 
