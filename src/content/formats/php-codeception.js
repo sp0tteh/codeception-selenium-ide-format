@@ -182,6 +182,14 @@ function formatCommand(command, indent) {
             var target = getSelector(command.target);
             result += '->seeOptionIsSelected("'+target+'", "'+ command.value+'");\n';
           break;
+        case 'waitForVisible':
+            var target = getSelector(command.target);
+            result += '->waitForElementVisible("'+target+'");\n';
+          break;
+        case 'waitForNotVisible':
+            var target = getSelector(command.target);
+            result += '->waitForElementNotVisible("'+target+'");\n';
+          break;
         case 'verifyElementNotPresent':
           //Throws value undefined error if no target is given, selenium ide bug 
             result += '->dontSeeElement("'+ command.value +'");\n';
@@ -191,6 +199,10 @@ function formatCommand(command, indent) {
             break;
         case 'assertPrompt':
             result += '->typeInPopup("'+promptValue+'");\n';
+            promptValue = '';
+          break;
+        case 'waitForSpeed':
+            result += '->wait(2);\n';
             promptValue = '';
           break;
         case 'refresh':
