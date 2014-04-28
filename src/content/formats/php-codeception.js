@@ -93,6 +93,7 @@ function formatCommand(command, indent) {
       var codeceptionCommand = '';
 
       //Switch command and replace with codeception varient
+
       switch (command.command) {
         case 'open':
           result += '->amOnPage("'+command.target+'");\n';
@@ -100,7 +101,14 @@ function formatCommand(command, indent) {
         case 'click':
         case 'clickAndWait':
           var target = getSelector(command.target);
+         
           result += '->click("'+target+'");\n';
+         
+         if(command.target.indexOf("-modal-button") > -1)
+          {
+            result += options.variable + '->waitForJS("return window.modal_loaded;", 10);\n';
+        
+          } 
           break;
         case 'select':
           var target = getSelector(command.target);
