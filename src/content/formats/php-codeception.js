@@ -216,10 +216,29 @@ function formatCommand(command, indent) {
         case 'refresh':
             result += '->reloadPage();\n';
           break;
-
-
+        case 'pause':
+            // Selenium seems to use Milliseconds instead of Seconds
+            result += '->wait("'+promptValue / 1000+'");\n';
+          break;
+        case 'clickAt':
+            var prefix =  command.target.substring(0, 4);
+            if (prefix == 'css=')
+            {
+                result += '->click("'+command.target.substring(0, 4)+'");\n';
+            }
+            else
+            {
+                result += '->click("'+promptValue+'");\n';
+            }
+            break;
+          case 'captureEntirePageScreenshot':
+              result += '->makeScreenshot("'+command.target+'");\n';
+              break;
           default:
-          result += '->' + command.command + '====' + command.target + '|' + command.value + "|\n";
+            // Add this command as a PHP comment to preserve PHP syntax
+            result += "/**\n";
+            result += '->' + command.command + '====' + command.target + '|' + command.value + "|\n";
+            result += "**/\n";
       }
 
       
@@ -395,7 +414,6 @@ function underscore(text) {
  */
 options = {
   header: '<?php\n'
-    + '${variable} = new WebGuy($scenario);\n'
     + '${variable}->wantTo("${action}");\n'
     + '${content}\n',
   testHeader: "<?php\n\n"
@@ -406,7 +424,7 @@ options = {
     + indents(2) + "public function _after() {}\n\n"
     + indents(2) + "${content}\n\n"
     + '}',
-  testClassHeader: 'public function ${testClass} (\Webguy ${variable})\n'
+  testClassHeader: 'public function ${testClass} (AcceptanceTester $I)\n'
     + '{\n\n'
     + '${variable}->wantTo("${action}");\n'
     + '${content}\n'
